@@ -41,4 +41,29 @@ const registerUser = async (payload) => {
   };
 };
 
-module.exports = { registerUser };
+const loginUser = async (payload) => {
+  const { username, password } = payload || {};
+
+  if (!username || !password) {
+    throw createError(400, 'Username and password are required');
+  }
+
+  const user = await User.findOne({ username: username.trim() });
+  if (!user) {
+    throw createError(401, 'Invalid username or password');
+  }
+
+  const isPasswordValid = await user.comparePassword(password);
+  if (!isPasswordValid) {
+    throw createError(401, 'Invalid username or password');
+  }
+
+  const token = generateToken({ id: user._id, role: user.role });
+
+  return {
+    user,
+    token
+  };
+};
+
+module.exports = { registerUser, loginUser };
