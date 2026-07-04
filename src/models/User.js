@@ -33,7 +33,31 @@ const userSchema = new mongoose.Schema(
       enum: ['student', 'manager', 'admin'],
       required: true,
       default: 'student'
-    }
+    },
+    profilePicture: {
+      type: String,
+      default: ""
+    },
+    fullName: {
+    type: String,
+    default: ""
+    },
+    registerNumber: {
+    type: String,
+    default: ""
+    },
+      department: {
+      type: String,
+      default: ""
+    },
+    year: {
+    type: String,
+    default: ""
+    },
+    section: {
+    type: String,
+    default: ""
+   },
   },
   { timestamps: true }
 );
