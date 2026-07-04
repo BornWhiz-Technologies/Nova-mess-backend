@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 const app = express();
 
@@ -16,8 +17,7 @@ app.get('/health', (req, res) => {
   res.json({ success: true, message: 'MESS NOVA API is running' });
 });
 
-app.use('/api/auth', authRoutes);
-
+app.use('/api/auth', authRoutes,studentRoutes);
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
