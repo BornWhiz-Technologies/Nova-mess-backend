@@ -6,6 +6,7 @@ const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const managerRoutes = require('./routes/managerRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 const app = express();
 
@@ -26,11 +27,8 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/manager', managerRoutes);
-
 // 404 Handler
+app.use('/api/auth', authRoutes,studentRoutes,managerRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,
