@@ -28,7 +28,10 @@ app.get('/health', (req, res) => {
 });
 
 // 404 Handler
-app.use('/api/auth', authRoutes,studentRoutes,managerRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/auth', studentRoutes);
+app.use('/api/auth', managerRoutes);
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,

@@ -6,12 +6,7 @@ const { addManager } = require("../controllers/managerController");
 const upload = require("../middleware/multer");
 
 // Upload Profile Picture + Employee ID Proof
-router.post(
-  "/create",
-  upload.fields([
-    { name: "profilePicture", maxCount: 1 },
-    { name: "employeeIdProof", maxCount: 1 }
-  ]),
+router.post("/create",upload.fields([{ name: "profilePicture", maxCount: 1 },{ name: "employeeIdProof", maxCount: 1 }]),
   addManager
 );
 
