@@ -2,48 +2,45 @@ const { createManager } = require("../services/managerService");
 const { sendResponse } = require("../utils/response");
 
 const addManager = async (req, res) => {
+  // 👇 Debug
+  console.log("===== req.body =====");
+  console.log(req.body);
 
-    try {
+  console.log("===== req.files =====");
+  console.log(req.files);
 
-        // Get uploaded file paths
-        const profilePicture =
-            req.files?.profilePicture?.[0]?.filename || "";
+  try {
+    const profilePicture = req.files?.profilePicture?.[0]?.filename || "";
 
-        const employeeIdProof =
-            req.files?.employeeIdProof?.[0]?.filename || "";
+    const employeeIdProof = req.files?.employeeIdProof?.[0]?.filename || "";
 
-        // Combine form data + file names
-        const managerData = {
-            ...req.body,
-            profilePicture,
-            employeeIdProof
-        };
+    const managerData = {
+      ...req.body,
+      profilePicture,
+      employeeIdProof,
+    };
 
-        const manager = await createManager(managerData);
+    const manager = await createManager(managerData);
 
-        return sendResponse(
-            res,
-            201,
-            true,
-            "Manager details saved successfully",
-            manager
-        );
+    return sendResponse(
+      res,
+      201,
+      true,
+      "Manager details saved successfully",
+      manager,
+    );
+  } catch (error) {
+    console.error("Manager Error:", error);
 
-    } catch (error) {
-
-        console.error("Manager Error:", error);
-
-        return sendResponse(
-            res,
-            500,
-            false,
-            error.message || "Internal Server Error"
-        );
-
-    }
-
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+    );
+  }
 };
 
 module.exports = {
-    addManager
+  addManager,
 };
