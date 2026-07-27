@@ -1,4 +1,9 @@
-const { createManager } = require("../services/managerService");
+const Manager = require("../models/manager");
+const {
+  createManager,
+  getManagerProfile,
+} = require("../services/managerService");
+const { getMenus } = require("../services/menuService");
 const { sendResponse } = require("../utils/response");
 
 const addManager = async (req, res) => {

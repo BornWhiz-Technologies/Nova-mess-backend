@@ -7,6 +7,12 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const managerRoutes = require('./routes/managerRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const menuRoutes = require('./routes/menuRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const managerStudentRoutes = require("./routes/managerStudentRoutes");
+const managerReportRoutes = require("./routes/managerReportRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 const app = express();
 
@@ -39,6 +45,9 @@ app.use((req, res) => {
   });
 });
 
+app.use("/api/manager/reports", managerReportRoutes);
+app.use("/api/manager/analytics", analyticsRoutes);
+app.use("/api/manager/notifications", notificationRoutes);
 // Error Handler
 app.use((err, req, res, next) => {
   console.error(err);
