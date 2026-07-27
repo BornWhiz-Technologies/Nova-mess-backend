@@ -1,32 +1,35 @@
 const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const path = require("path");
-const authRoutes = require("./routes/authRoutes");
-const managerRoutes = require("./routes/managerRoutes");
-const studentRoutes = require("./routes/studentRoutes");
-const menuRoutes = require("./routes/menuRoutes");
-const orderRoutes = require("./routes/orderRoutes");
-const app = express();
-app.use(helmet());
-app.use(cors());
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.get("/health", (req, res) => {
-  res.json({ success: true, message: "MESS NOVA API is running" });
-});
-app.use("/api/auth", authRoutes);
-app.use("/api/student", studentRoutes);
-app.use("/api/manager", managerRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/menu", menuRoutes);
-app.use((err, req, res, next) => {
-  console.error(err);
-  res
-    .status(err.status || 500)
-    .json({ success: false, message: err.message || "Internal server error" });
-});
-module.exports = app;
+const router = express.Router();
+
+const {
+  addManager,
+  getProfile,
+  getDashboardSummary,
+  getTodaysMenu,
+  getWeeklyMenu,
+  getRecentOrders,
+  getOrders,
+} = require("../controllers/managerController");
+
+const upload = require("../middleware/multer");
+const authMiddleware = require("../middleware/authMiddleware");
+
+router.post(
+  "/create",
+  upload.fields([
+    { name: "profilePicture", maxCount: 1 },
+    { name: "employeeIdProof", maxCount: 1 },
+  ]),
+  addManager,
+);
+
+router.get("/profile", authMiddleware, getProfile);
+router.get("/dashboard", authMiddleware, getDashboardSummary);
+
+router.get("/menu/today", authMiddleware, getTodaysMenu);
+router.get("/menu/weekly", authMiddleware, getWeeklyMenu);
+
+router.get("/orders/recent", authMiddleware, getRecentOrders);
+router.get("/orders", authMiddleware, getOrders);
+
+module.exports = router;
