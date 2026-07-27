@@ -14,19 +14,9 @@ const {
 const upload = require("../middleware/multer");
 const authMiddleware = require("../middleware/authMiddleware");
 
-<<<<<<< HEAD
-router.post(
-  "/create",
-  upload.fields([
-    { name: "profilePicture", maxCount: 1 },
-    { name: "employeeIdProof", maxCount: 1 },
-  ]),
-  addManager,
-=======
 // Upload Profile Picture + Employee ID Proof
 router.post("/create",upload.fields([{ name: "profilePicture", maxCount: 1 },{ name: "employeeIdProof", maxCount: 1 }]),
   addManager
->>>>>>> e455aab301a8a6b466701760bd2ade5063605659
 );
 
 router.get("/profile", authMiddleware, getProfile);

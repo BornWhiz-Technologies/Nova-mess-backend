@@ -34,10 +34,6 @@ app.get('/health', (req, res) => {
 });
 
 // 404 Handler
-<<<<<<< HEAD
-// Routes
-app.use("/api/auth", authRoutes);
-=======
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', studentRoutes);
 app.use('/api/auth', managerRoutes);
@@ -48,17 +44,6 @@ app.use((req, res) => {
     message: 'Route not found'
   });
 });
->>>>>>> e455aab301a8a6b466701760bd2ade5063605659
-
-app.use("/api/student", studentRoutes);
-
-app.use("/api/manager", managerRoutes);
-
-app.use("/api/orders", orderRoutes);
-
-app.use("/api/menu", menuRoutes);
-
-app.use("/api/manager/students", managerStudentRoutes);
 
 app.use("/api/manager/reports", managerReportRoutes);
 app.use("/api/manager/analytics", analyticsRoutes);
