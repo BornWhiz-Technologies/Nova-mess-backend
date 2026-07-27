@@ -7,7 +7,6 @@ const { getMenus } = require("../services/menuService");
 const { sendResponse } = require("../utils/response");
 
 const addManager = async (req, res) => {
-<<<<<<< HEAD
   try {
     const profilePicture = req.files?.profilePicture?.[0]?.filename || "";
     const employeeIdProof = req.files?.employeeIdProof?.[0]?.filename || "";
@@ -50,7 +49,34 @@ const getProfile = async (req, res) => {
     return sendResponse(res, 200, true, "Manager profile fetched", manager);
   } catch (error) {
     console.error("Get Profile Error:", error);
-=======
+    const employeeIdProof = req.files?.employeeIdProof?.[0]?.filename || "";
+
+    const managerData = {
+      ...req.body,
+      profilePicture,
+      employeeIdProof,
+    };
+
+    const manager = await createManager(managerData);
+
+    return sendResponse(
+      res,
+      201,
+      true,
+      "Manager details saved successfully",
+      manager,
+    );
+  } catch (error) {
+    console.error("Manager Error:", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+    );
+  }
+};
+
   // 👇 Debug
   console.log("===== req.body =====");
   console.log(req.body);
@@ -81,15 +107,12 @@ const getProfile = async (req, res) => {
   } catch (error) {
     console.error("Manager Error:", error);
 
->>>>>>> e455aab301a8a6b466701760bd2ade5063605659
     return sendResponse(
       res,
       500,
       false,
       error.message || "Internal Server Error",
     );
-  }
-<<<<<<< HEAD
 };
 
 const getDashboardSummary = async (req, res) => {
@@ -178,7 +201,6 @@ const getTodaysMenu = async (req, res) => {
     return sendResponse(res, 200, true, "Today's menu fetched", menu);
   } catch (error) {
     console.error("Menu Error:", error);
-
     return sendResponse(
       res,
       500,
@@ -249,20 +271,14 @@ const getOrders = async (req, res) => {
   } catch (error) {
     console.error(error);
     return sendResponse(res, 500, false, error.message);
-  }
-=======
->>>>>>> e455aab301a8a6b466701760bd2ade5063605659
 };
 
 module.exports = {
   addManager,
-<<<<<<< HEAD
   getProfile,
   getDashboardSummary,
   getTodaysMenu,
   getWeeklyMenu,
   getRecentOrders,
   getOrders,
-=======
->>>>>>> e455aab301a8a6b466701760bd2ade5063605659
 };
