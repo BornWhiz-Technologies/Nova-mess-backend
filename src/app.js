@@ -7,6 +7,12 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const managerRoutes = require('./routes/managerRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const menuRoutes = require('./routes/menuRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const managerStudentRoutes = require("./routes/managerStudentRoutes");
+const managerReportRoutes = require("./routes/managerReportRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 const app = express();
 
@@ -28,14 +34,22 @@ app.get('/health', (req, res) => {
 });
 
 // 404 Handler
-app.use('/api/auth', authRoutes,studentRoutes,managerRoutes);
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
-});
+// Routes
+app.use("/api/auth", authRoutes);
 
+app.use("/api/student", studentRoutes);
+
+app.use("/api/manager", managerRoutes);
+
+app.use("/api/orders", orderRoutes);
+
+app.use("/api/menu", menuRoutes);
+
+app.use("/api/manager/students", managerStudentRoutes);
+
+app.use("/api/manager/reports", managerReportRoutes);
+app.use("/api/manager/analytics", analyticsRoutes);
+app.use("/api/manager/notifications", notificationRoutes);
 // Error Handler
 app.use((err, req, res, next) => {
   console.error(err);
