@@ -8,8 +8,21 @@ const { sendResponse } = require("../utils/response");
 
 const addManager = async (req, res) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   try {
     const profilePicture = req.files?.profilePicture?.[0]?.filename || "";
+=======
+  // 👇 Debug
+  console.log("===== req.body =====");
+  console.log(req.body);
+
+  console.log("===== req.files =====");
+  console.log(req.files);
+
+  try {
+    const profilePicture = req.files?.profilePicture?.[0]?.filename || "";
+
+>>>>>>> 920a28010bded2e02d36ea26122050aa79be18be
     const employeeIdProof = req.files?.employeeIdProof?.[0]?.filename || "";
 
     const managerData = {
@@ -29,6 +42,10 @@ const addManager = async (req, res) => {
     );
   } catch (error) {
     console.error("Manager Error:", error);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 920a28010bded2e02d36ea26122050aa79be18be
     return sendResponse(
       res,
       500,
@@ -38,6 +55,7 @@ const addManager = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 const getProfile = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -265,4 +283,8 @@ module.exports = {
   getOrders,
 =======
 >>>>>>> e455aab301a8a6b466701760bd2ade5063605659
+=======
+module.exports = {
+  addManager,
+>>>>>>> 920a28010bded2e02d36ea26122050aa79be18be
 };
