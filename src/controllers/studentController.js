@@ -1,4 +1,9 @@
-const { updateStudentProfile } = require("../services/studentService");
+const {
+  updateStudentProfile,
+  getStudentProfile,
+  getStudentOrders,
+  getStudentDashboard,
+} = require("../services/studentService");
 const { sendResponse } = require("../utils/response");
 
 const saveStudentProfile = async (req, res) => {
@@ -35,6 +40,49 @@ const saveStudentProfile = async (req, res) => {
   }
 };
 
+const getProfile = async (req, res) => {
+  try {
+    const student = await getStudentProfile(req.user.id);
+
+    if (!student) {
+      return sendResponse(res, 404, false, "Student profile not found");
+    }
+
+    return sendResponse(res, 200, true, "Student profile fetched", student);
+  } catch (error) {
+    console.error("Student Profile Error:", error);
+    return sendResponse(res, 500, false, "Internal server error");
+  }
+};
+
+const getOrders = async (req, res) => {
+  try {
+    const orders = await getStudentOrders(req.user.id);
+    return sendResponse(res, 200, true, "Student orders fetched", orders);
+  } catch (error) {
+    console.error("Student Orders Error:", error);
+    return sendResponse(res, 500, false, "Internal server error");
+  }
+};
+
+const getDashboard = async (req, res) => {
+  try {
+    const dashboard = await getStudentDashboard(req.user.id);
+
+    if (!dashboard.profile) {
+      return sendResponse(res, 404, false, "Student profile not found");
+    }
+
+    return sendResponse(res, 200, true, "Student dashboard fetched", dashboard);
+  } catch (error) {
+    console.error("Student Dashboard Error:", error);
+    return sendResponse(res, 500, false, "Internal server error");
+  }
+};
+
 module.exports = {
-  saveStudentProfile
+  saveStudentProfile,
+  getProfile,
+  getOrders,
+  getDashboard,
 };
