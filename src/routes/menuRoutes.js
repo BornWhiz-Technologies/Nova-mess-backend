@@ -17,7 +17,7 @@ const upload = require("../middleware/multer");
 router.post("/", authMiddleware, upload.single("image"), addMenu);
 
 // Get All Menus
-router.get("/", authMiddleware, getAllMenus);
+router.get("/", getAllMenus);
 
 // Get Single Menu
 router.get("/:id", authMiddleware, getSingleMenu);
