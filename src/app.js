@@ -14,6 +14,7 @@ const managerReportRoutes = require("./routes/managerReportRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const supportRoutes = require("./routes/supportRoutes");
 
 const app = express();
 
@@ -52,7 +53,7 @@ app.use("/api/manager/reports", managerReportRoutes);
 app.use("/api/manager/analytics", analyticsRoutes);
 app.use("/api/manager/notifications", notificationRoutes);
 app.use("/api/payments", paymentRoutes);
-
+app.use("/api/support", supportRoutes);
 // Error Handler
 app.use((err, req, res, next) => {
   console.error(err);

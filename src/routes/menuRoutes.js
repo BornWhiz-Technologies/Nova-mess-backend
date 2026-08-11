@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   addMenu,
   getAllMenus,
+  getTodayMenu,
   getSingleMenu,
   editMenu,
   removeMenu,
@@ -18,6 +19,9 @@ router.post("/", authMiddleware, upload.single("image"), addMenu);
 
 // Get All Menus
 router.get("/", getAllMenus);
+
+// Get Today's Menu
+router.get("/today", getTodayMenu);
 
 // Get Single Menu
 router.get("/:id", authMiddleware, getSingleMenu);
