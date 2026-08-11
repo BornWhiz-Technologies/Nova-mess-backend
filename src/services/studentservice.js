@@ -7,7 +7,21 @@ const getStudentProfile = async (userId) => {
 };
 
 const getStudentOrders = async (userId) => {
-  return Order.find({ studentId: userId }).sort({ createdAt: -1 });
+  const now = new Date();
+
+  const start = new Date(now);
+  start.setHours(0, 0, 0, 0);
+
+  const end = new Date(now);
+  end.setHours(23, 59, 59, 999);
+
+  return await Order.find({
+    studentId: userId,
+    createdAt: {
+      $gte: start,
+      $lte: end,
+    },
+  }).sort({ createdAt: -1 });
 };
 
 const getStudentDashboard = async (userId) => {
@@ -28,10 +42,19 @@ const getStudentDashboard = async (userId) => {
   // If the manager has not selected today's date, show the most recently
   // added available menu instead of leaving the dashboard empty.
   if (todayMenu.length === 0) {
-    todayMenu = await Menu.find({ available: true }).sort({ createdAt: -1 }).limit(1);
+    todayMenu = await Menu.find({ available: true })
+      .sort({ createdAt: -1 })
+      .limit(1);
   }
-
-  const recentOrders = await Order.find({ studentId: userId }).sort({ createdAt: -1 }).limit(5);
+  const recentOrders = await Order.find({
+    studentId: userId,
+    createdAt: {
+      $gte: today,
+      $lt: tomorrow,
+    },
+  })
+    .sort({ createdAt: -1 })
+    .limit(5);
 
   return {
     profile,
@@ -49,12 +72,12 @@ const updateStudentProfile = async (userId, data) => {
       registerNumber: data.registerNumber,
       department: data.department,
       year: data.year,
-      section: data.section
+      section: data.section,
     },
     {
       new: true,
-      runValidators: true
-    }
+      runValidators: true,
+    },
   );
 
   if (!updatedUser) {
@@ -70,5 +93,5 @@ module.exports = {
   getStudentProfile,
   getStudentOrders,
   getStudentDashboard,
-  updateStudentProfile
+  updateStudentProfile,
 };

@@ -1,6 +1,7 @@
 const {
   createMenu,
   getMenus,
+  getTodayMenus,
   getMenuById,
   updateMenu,
   deleteMenu,
@@ -41,6 +42,24 @@ const getAllMenus = async (req, res) => {
     const menus = await getMenus();
 
     return sendResponse(res, 200, true, "Menus fetched successfully", menus);
+  } catch (error) {
+    console.error(error);
+
+    return sendResponse(res, 500, false, error.message);
+  }
+};
+// Get Today's Menu
+const getTodayMenu = async (req, res) => {
+  try {
+    const menus = await getTodayMenus();
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Today's menu fetched successfully",
+      menus,
+    );
   } catch (error) {
     console.error(error);
 
@@ -100,6 +119,7 @@ const removeMenu = async (req, res) => {
 module.exports = {
   addMenu,
   getAllMenus,
+  getTodayMenu,
   getSingleMenu,
   editMenu,
   removeMenu,
