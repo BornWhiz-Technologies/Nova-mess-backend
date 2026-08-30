@@ -7,7 +7,7 @@ const { sendResponse } = require("../utils/response");
 
 const getAllNotifications = async (req, res) => {
   try {
-    const notifications = await getNotifications();
+    const notifications = await getNotifications(req.user);
 
     return sendResponse(res, 200, true, "Notifications fetched", notifications);
   } catch (error) {

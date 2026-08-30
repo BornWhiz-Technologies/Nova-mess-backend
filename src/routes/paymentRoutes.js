@@ -6,20 +6,21 @@ const {
   makePayment,
   getPayment,
   changePaymentStatus,
+  getPayments,
 } = require("../controllers/paymentController");
 
 const authMiddleware = require("../middleware/authMiddleware");
 
-// Student Payment
-
+// Student - Create Payment
 router.post("/", authMiddleware, makePayment);
 
-// Get payment by order
+// Manager - Get All Payments
+router.get("/all", authMiddleware, getPayments);
 
+// Get Payment by Order
 router.get("/:orderId", authMiddleware, getPayment);
 
-// Update payment
-
+// Update Payment
 router.put("/:id/status", authMiddleware, changePaymentStatus);
 
 module.exports = router;

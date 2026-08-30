@@ -2,6 +2,7 @@ const {
   createPayment,
   getPaymentByOrder,
   updatePaymentStatus,
+  getAllPayments,
 } = require("../services/paymentService");
 
 const { sendResponse } = require("../utils/response");
@@ -55,8 +56,27 @@ const changePaymentStatus = async (req, res) => {
   }
 };
 
+const getPayments = async (req, res) => {
+  try {
+    const payments = await getAllPayments();
+
+    res.status(200).json({
+      success: true,
+      data: payments,
+    });
+  } catch (error) {
+    console.error("Get Payments Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch payments",
+    });
+  }
+};
+
 module.exports = {
   makePayment,
   getPayment,
   changePaymentStatus,
+  getPayments,
 };

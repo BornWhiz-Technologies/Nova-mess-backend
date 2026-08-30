@@ -9,12 +9,16 @@ const managerRoutes = require('./routes/managerRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require("./routes/cartRoutes");
+const billRoutes = require("./routes/billRoutes");
 const managerStudentRoutes = require("./routes/managerStudentRoutes");
 const managerReportRoutes = require("./routes/managerReportRoutes");
+const announcementRoutes = require("./routes/announcementRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
-const notificationRoutes = require("./routes/notificationRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const supportRoutes = require("./routes/supportRoutes");
+const profileRoutes = require("./routes/profileRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 const app = express();
 
@@ -45,15 +49,20 @@ app.use("/api/manager", managerRoutes);
 
 app.use("/api/orders", orderRoutes);
 
+app.use("/api/cart", cartRoutes);
+app.use("/api/student/bills", billRoutes);
 app.use("/api/menu", menuRoutes);
 
 app.use("/api/manager/students", managerStudentRoutes);
 
 app.use("/api/manager/reports", managerReportRoutes);
+app.use("/api/announcements", announcementRoutes);
 app.use("/api/manager/analytics", analyticsRoutes);
 app.use("/api/manager/notifications", notificationRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/support", supportRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/notifications", notificationRoutes);
 // Error Handler
 app.use((err, req, res, next) => {
   console.error(err);

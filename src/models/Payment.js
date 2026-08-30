@@ -19,9 +19,25 @@ const paymentSchema = new mongoose.Schema(
       required: true,
     },
 
-    paymentMode: {
+    paymentMethod: {
       type: String,
-      enum: ["GPay", "Paytm", "UPI", "Rupay Card", "Cash"],
+      enum: ["UPI", "Card", "Cash"],
+      required: true,
+    },
+
+    paymentOption: {
+      type: String,
+      enum: [
+        "Google Pay",
+        "PhonePe",
+        "Paytm",
+        "UPI ID",
+        "Scan QR",
+        "Visa",
+        "Mastercard",
+        "RuPay",
+        "Cash",
+      ],
       required: true,
     },
 
