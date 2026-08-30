@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   addManager,
   getProfile,
+  updateProfile,
   getDashboardSummary,
   getTodaysMenu,
   getWeeklyMenu,
@@ -31,5 +32,6 @@ router.get("/menu/weekly", authMiddleware, getWeeklyMenu);
 
 router.get("/orders/recent", authMiddleware, getRecentOrders);
 router.get("/orders", authMiddleware, getOrders);
+router.put("/profile", authMiddleware, updateProfile);
 
 module.exports = router;

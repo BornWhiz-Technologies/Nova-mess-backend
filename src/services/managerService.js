@@ -20,7 +20,26 @@ const getManagerProfile = async (userId) => {
   return manager;
 };
 
+const updateManagerProfile = async (userId, profileData) => {
+  const manager = await Manager.findOne({ userId });
+
+  if (!manager) {
+    throw new Error("Manager profile not found");
+  }
+
+  manager.fullName = profileData.fullName ?? manager.fullName;
+
+  manager.phone = profileData.phone ?? manager.phone;
+
+  manager.shift = profileData.shift ?? manager.shift;
+
+  await manager.save();
+
+  return manager;
+};
+
 module.exports = {
   createManager,
   getManagerProfile,
+  updateManagerProfile,
 };

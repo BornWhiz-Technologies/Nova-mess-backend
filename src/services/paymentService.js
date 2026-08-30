@@ -1,7 +1,20 @@
-const Payment = require("../models/payment");
+const Payment = require("../models/Payment");
 
 const createPayment = async (paymentData) => {
-  const payment = await Payment.create(paymentData);
+  const existingPayment = await Payment.findOne({
+    orderId: paymentData.orderId,
+    studentId: paymentData.studentId,
+    paymentStatus: "Paid",
+  });
+
+  if (existingPayment) {
+    throw new Error("This order has already been paid.");
+  }
+
+  const payment = await Payment.create({
+    ...paymentData,
+    paymentStatus: "Paid",
+  });
 
   return payment;
 };
@@ -21,9 +34,15 @@ const updatePaymentStatus = async (id, status) => {
     },
   );
 };
-
+const getAllPayments = async () => {
+  return Payment.find()
+    .populate("studentId", "fullName email")
+    .populate("orderId")
+    .sort({ createdAt: -1 });
+};
 module.exports = {
   createPayment,
   getPaymentByOrder,
   updatePaymentStatus,
+  getAllPayments,
 };

@@ -1,16 +1,33 @@
 const mongoose = require("mongoose");
 
+const orderItemSchema = new mongoose.Schema(
+  {
+    foodName: {
+      type: String,
+      required: true,
+    },
+
+    price: {
+      type: Number,
+      required: true,
+    },
+
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
 const orderSchema = new mongoose.Schema(
   {
     studentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
-      required: true,
-    },
-
-    menuId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Menu",
+      ref: "User",
       required: true,
     },
 
@@ -19,14 +36,15 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    foodName: {
-      type: String,
+    items: {
+      type: [orderItemSchema],
       required: true,
-    },
-
-    quantity: {
-      type: Number,
-      default: 1,
+      validate: {
+        validator: function (items) {
+          return items.length > 0;
+        },
+        message: "Order must contain at least one item",
+      },
     },
 
     totalPrice: {

@@ -2,6 +2,7 @@ const Manager = require("../models/manager");
 const {
   createManager,
   getManagerProfile,
+  updateManagerProfile,
 } = require("../services/managerService");
 const { getMenus } = require("../services/menuService");
 const { sendResponse } = require("../utils/response");
@@ -49,6 +50,30 @@ const getProfile = async (req, res) => {
     return sendResponse(res, 200, true, "Manager profile fetched", manager);
   } catch (error) {
     console.error("Get Profile Error:", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+    );
+  }
+};
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const manager = await updateManagerProfile(userId, req.body);
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Manager profile updated successfully",
+      manager,
+    );
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+
     return sendResponse(
       res,
       500,
@@ -211,16 +236,47 @@ const getOrders = async (req, res) => {
 
     const orders = await Order.find(filter).sort({ createdAt: -1 });
 
-    return sendResponse(res, 200, true, "Orders fetched", orders);
+    const formattedOrders = orders.map((order) => {
+      const orderData = order.toObject();
+
+      let foodName = "";
+
+      // New cart/multiple-item orders
+      if (Array.isArray(order.items) && order.items.length > 0) {
+        foodName = order.items
+          .map((item) => item.foodName)
+          .filter(Boolean)
+          .join(", ");
+      }
+
+      // Old single-item orders fallback
+      if (!foodName) {
+        foodName = order.foodName || "-";
+      }
+
+      return {
+        ...orderData,
+        foodName,
+      };
+    });
+
+    return sendResponse(res, 200, true, "Orders fetched", formattedOrders);
   } catch (error) {
-    console.error(error);
-    return sendResponse(res, 500, false, error.message);
+    console.error("Orders Error:", error);
+
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+    );
   }
 };
 
 module.exports = {
   addManager,
   getProfile,
+  updateProfile,
   getDashboardSummary,
   getTodaysMenu,
   getWeeklyMenu,
